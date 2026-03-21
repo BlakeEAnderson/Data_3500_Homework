@@ -113,3 +113,14 @@ while j < 5:
 # takes totalPrice and divides it by the amount of numbers in priceList
 fiveDayAvgPrice = totalPrice/len(priceList)
 print(f"The avg of first five days is {round(fiveDayAvgPrice, 2)}")
+
+# moving avg
+# placeholder that shows what day the rolling avg starts at
+i = 0
+
+for price in priceList:
+    # adds 5 days of prices starting at the placeholder
+    moving_avg = (priceList[i] + priceList[i+1] + priceList[i+2] + priceList[i+3] + priceList[i+4]) / 5
+    
+    # adds 1 to the placeholder
+    i += 1
