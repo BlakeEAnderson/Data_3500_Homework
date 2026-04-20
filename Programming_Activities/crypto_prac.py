@@ -4,13 +4,15 @@ import json
 import requests
 import datetime
 import time
+import csv
+
 # url setup
 url1 = "https://api.coingecko.com/api/v3/coins/"
 url2 = "/history?date="
-url3 = "&localization=false"
+url3 = "&localization=false&x_cg_demo_api_key=CG-RPB9RntnigsxQbwRtavehcv9"
 
 # coin
-urlcoins = ["ethereum", "bitcoin"]
+urlcoins = ["ethereum", "bitcoin", "tether", "chainlink", "tron", "usds"]
 
 # date
 today = datetime.datetime.now()
@@ -26,9 +28,12 @@ for coin in urlcoins:
     # set startdate
     startdate = today - datetime.timedelta(days=366)
     print(startdate)
-    for i in range(4):
+
+    # create heading for csv file
+                        #fileLines.append("date, value\n") was used for giving names for lines
+    for i in range(10):
         #time
-        time.sleep(11)
+        #time.sleep(3)
         # add one to the start date each loop & format it
         startdate += datetime.timedelta(days=1)
         dateFormat = startdate.strftime("%d-%m-%Y")
@@ -47,3 +52,5 @@ for coin in urlcoins:
             print("NO MORE CALLS")
     # write to a file
     file.writelines(fileLines)
+
+
