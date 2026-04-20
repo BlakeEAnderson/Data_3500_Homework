@@ -69,7 +69,7 @@ have been updated.
 - save the Python dictionary to person.json
 - open person.json and verify the "age" value has increased by 1
 """
-"""
+
 # open and update person.json
 with open("person.json") as file:
     person = json.load(file)
@@ -81,7 +81,7 @@ print(person["Age"])
 
 with open("person.json") as file:
     json.dump(person, file, indent=4)
-"""
+
 """
 Programming Activity 4
 
