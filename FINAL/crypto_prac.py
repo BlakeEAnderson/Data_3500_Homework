@@ -12,7 +12,7 @@ url2 = "/history?date="
 url3 = "&localization=false&x_cg_demo_api_key=CG-RPB9RntnigsxQbwRtavehcv9"
 
 # coin
-urlcoins = ["ethereum", "bitcoin", "tether", "chainlink", "tron", "usds"]
+urlcoins = ["ethereum"] #, "bitcoin", "tether", "chainlink", "tron", "usds"]
 
 # date
 today = datetime.datetime.now()
@@ -31,9 +31,9 @@ for coin in urlcoins:
 
     # create heading for csv file
                         #fileLines.append("date, value\n") was used for giving names for lines
-    for i in range(10):
+    for i in range(50):
         #time
-        #time.sleep(3)
+        time.sleep(1)
         # add one to the start date each loop & format it
         startdate += datetime.timedelta(days=1)
         dateFormat = startdate.strftime("%d-%m-%Y")
