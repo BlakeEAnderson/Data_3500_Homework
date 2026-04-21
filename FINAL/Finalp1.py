@@ -7,12 +7,13 @@ import time
 import csv
 
 # url setup
-url1 = "https://api.coingecko.com/api/v3/coins/"
+url1 = "https://pro-api.coingecko.com/api/v3/coins/"
 url2 = "/history?date="
-url3 = "&localization=false&x_cg_demo_api_key=CG-RPB9RntnigsxQbwRtavehcv9"
+headers = {"x-cg-pro-api-key": "CG-RPB9RntnigsxQbwRtavehcv9"}
 
+#https://pro-api.coingecko.com/api/v3/ping?x_cg_pro_api_key=YOUR_API_KEY
 # coin
-urlcoins = ["ethereum"] #, "bitcoin", "tether", "chainlink", "tron", "usds"]
+urlcoins = ["bitcoin", "tether", "chainlink", "tron", "usds"] #,"ethereum"
 
 # date
 today = datetime.datetime.now()
@@ -30,19 +31,20 @@ for coin in urlcoins:
     print(startdate)
 
     # create heading for csv file
-                        #fileLines.append("date, value\n") was used for giving names for lines
-    for i in range(50):
+    for i in range(365):
         #time
         time.sleep(1)
         # add one to the start date each loop & format it
         startdate += datetime.timedelta(days=1)
-        dateFormat = startdate.strftime("%d-%m-%Y")
+        dateFormat = startdate.strftime("%Y-%m-%d")
 
         # make a full url
-        url = url1 + coin + url2 + str(dateFormat) + url3
-        request = requests.get(url)
+        url = url1 + coin + url2 + str(dateFormat)
+
+        request = requests.get(url, headers=headers)
 
         print(url)
+
         # make dictionary
         eth_dictionary = json.loads(request.text)
         try:

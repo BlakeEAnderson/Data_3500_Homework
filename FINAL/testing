@@ -1,0 +1,9 @@
+import requests
+
+url = "https://pro-api.coingecko.com/api/v3/coins/bitcoin/history?date=2025-04-20"
+
+headers = {"x-cg-pro-api-key": "CG-RPB9RntnigsxQbwRtavehcv9"}
+
+response = requests.get(url, headers=headers)
+
+print(response.text)

@@ -8,7 +8,7 @@ import csv
 
 # 5 day moving average
 # list of urlcoins
-urlcoins = ["ethereum"] #, "bitcoin", "tether", "chainlink", "tron", "usds"]
+urlcoins = ["ethereum", "bitcoin", "tether", "chainlink", "tron", "usds"]
 
 # for every coin
 for i in urlcoins:
@@ -76,38 +76,35 @@ for i in urlcoins:
             priceLowDate = dateLst[i]
         else:
             priceLow += 0
+    
+        if currentPrice < (average * 0.98) and buy == 0:
+            #buy
+            buy = currentPrice
+            print(f"BUYING AT: {buy}")
 
-        # check if below 98% of 5 day average
-        if buyLock == 0:
-            if currentPrice < average * .98:
-                #buy
-                buy = currentPrice
-                print(f"BUYING AT: {buy}")
-                buyLock = 1
-        elif buyLock == 1:
-            # check if above 2% of 5 day average
-            if currentPrice > average * 1.02:
-                # sell
-                sell = currentPrice
-                tradeValue = sell - buy
-                print(f"SELLING AT: {sell} \t PROFIT:{round(tradeValue, 2)}")
-                overall = overall + tradeValue
-                buyLock = 0
-            else:
-                # do nothing
-                overall += 0
+        elif currentPrice > (average * 1.02) and buy != 0:
+            # sell
+            sell = currentPrice
+            tradeValue = sell - buy
+            print(f"SELLING AT: {sell} \t PROFIT:{round(tradeValue, 2)}")
+            overall = overall + tradeValue
+            
+            # reset buy value
+            buy = 0
 
     # checks the final day and gives a suggestion            
-    if currentPrice > average*98:
+    if currentPrice > average:
         suggestion = "You should buy on the last day"
-    elif currentPrice < average*1.02:
+    elif currentPrice < average:
         suggestion = "You should sell on the last day"
+    else:
+        suggestion = "Just hold your current price"
     
     # output for each coin
     print("\n\n___________________________")
     print(f"FIRST BUY: {round(firstBuy, 2)}")
     print(f"TOTAL PROFIT: {round(overall,2)}")
-    print(f"PERCENT GAIN: {round((firstBuy/overall),2)}")
+    print(f"PERCENT GAIN: {round((overall/firstBuy) * 100,2)}")
     print(f"PRICE HIGH: {round(priceHigh, 2)} ON DATE: {priceHighDate}")
     print(f"PRICE LOW: {round(priceLow, 2)} ON DATE: {priceLowDate}")
     print(suggestion)
