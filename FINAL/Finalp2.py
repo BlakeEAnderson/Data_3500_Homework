@@ -1,14 +1,21 @@
+"""
+This is part 2 of my final project which simulates trading strategies for each csv file
+which hold the dates and the value of the coins at those dates.
+"""
+
+
 import json
 import requests
 import datetime
 import time
 import csv
 
-# after getting the csv files
+# run after getting the csv files
 
-# 5 day moving average
 # list of urlcoins
 urlcoins = ["ethereum", "bitcoin", "tether", "chainlink", "tron", "usds"]
+# counter variable
+x = 0
 
 # for every coin
 for i in urlcoins:
@@ -17,9 +24,6 @@ for i in urlcoins:
     file = open( str(i) + ".csv")
     lines = file.readlines()
     reader = csv.reader(lines)
-
-    # buylock
-    buyLock = 0
 
     # variables buy, sell, overall, priceLst
     firstBuy = 0
@@ -37,6 +41,7 @@ for i in urlcoins:
 
     # final suggestion
     suggestion = ""
+
     # fill price list with prices
     for row in reader:
         price = float(row[1]) # sets it as a float
@@ -47,51 +52,48 @@ for i in urlcoins:
 
     # itterates through price list and displays the moving average
     print(i)    
-    for i in range(len(priceLst)):
+    for j in range(len(priceLst)):
         # makes sure its not out of range
-        if i <= 44:
+        if j <= 360:
             # creates current price and the average for the day
-            currentPrice = priceLst[i]
+            currentPrice = priceLst[j]
             # creates a 5 day moving average
-            average = (priceLst[i] + priceLst[i+1] + priceLst[i+2] + priceLst[i+3] + priceLst[i+4])/5
+            average = (priceLst[j] + priceLst[j+1] + priceLst[j+2] + priceLst[j+3] + priceLst[j+4])/5
+
         else:
             break
+
         # check if its the first purchace and change the value if it is and nothing if not
         if firstBuy == 0:
             firstBuy = currentPrice
-            priceLow = currentPrice
             priceHigh = currentPrice
-        else:
-            firstBuy += 0 
+            priceHighDate = dateLst[j]
+            priceLow = currentPrice
+            priceLowDate = dateLst[j]
 
         # check if its a new high
         if currentPrice > priceHigh:
             priceHigh = currentPrice
-            priceHighDate = dateLst[i]
-        else:
-            priceHigh += 0
+            priceHighDate = dateLst[j]
+
         # check and update priceLow
         if currentPrice < priceLow:
             priceLow = currentPrice
-            priceLowDate = dateLst[i]
-        else:
-            priceLow += 0
+            priceLowDate = dateLst[j]
     
-        if currentPrice < (average * 0.98) and buy == 0:
+        if currentPrice > average and buy == 0:
             #buy
             buy = currentPrice
             print(f"BUYING AT: {buy}")
 
-        elif currentPrice > (average * 1.02) and buy != 0:
+        elif currentPrice < average and buy != 0:
             # sell
-            sell = currentPrice
-            tradeValue = sell - buy
-            print(f"SELLING AT: {sell} \t PROFIT:{round(tradeValue, 2)}")
-            overall = overall + tradeValue
+            tradeValue = currentPrice - buy
+            print(f"SELLING AT: {currentPrice} \t PROFIT:{round(tradeValue, 2)} \t AVERAGE:{average}")
+            overall += tradeValue
             
             # reset buy value
             buy = 0
-
     # checks the final day and gives a suggestion            
     if currentPrice > average:
         suggestion = "You should buy on the last day"
@@ -108,4 +110,17 @@ for i in urlcoins:
     print(f"PRICE HIGH: {round(priceHigh, 2)} ON DATE: {priceHighDate}")
     print(f"PRICE LOW: {round(priceLow, 2)} ON DATE: {priceLowDate}")
     print(suggestion)
-    print("___________________________\n\n")   
+    print("___________________________\n\n")
+
+    # create a dictionary
+    file = open(str(urlcoins[x]) + " data.csv", "w")
+    fileLines = []
+
+    # write to the dictionary with the data
+    #format: First Buy, Total Profit, Percent Gain, Price High, Price Low
+    fileLines.append(str(firstBuy) + ", " + str(overall) + "," + str((overall/firstBuy) * 100) + ", " + str(priceHigh) + ", " + str(priceHighDate) + ", " + str(priceLow) + ", " + str(priceLowDate))
+    file.writelines(fileLines)
+    
+    # add to the counter var
+    x += 1
+    

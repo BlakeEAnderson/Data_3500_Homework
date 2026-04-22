@@ -1,5 +1,9 @@
-# https://api.coingecko.com/api/v3/coins/ethereum/history?date=25-11-2025&localization=false
-
+"""
+This is part one of my final project for DATA 3500. This part of the code takes the urls
+from coingecko and takes the dictionary that is recived and records the value of the
+coin and the date the value was gotten. These are recorded into csv files labeled after
+the coin that they were gotten from. example - bitcoin.csv
+"""
 import json
 import requests
 import datetime
@@ -9,11 +13,13 @@ import csv
 # url setup
 url1 = "https://pro-api.coingecko.com/api/v3/coins/"
 url2 = "/history?date="
+
+# header variable to hold my api key
 headers = {"x-cg-pro-api-key": "CG-RPB9RntnigsxQbwRtavehcv9"}
 
-#https://pro-api.coingecko.com/api/v3/ping?x_cg_pro_api_key=YOUR_API_KEY
+
 # coin
-urlcoins = ["bitcoin", "tether", "chainlink", "tron", "usds"] #,"ethereum"
+urlcoins = ["bitcoin", "tether", "chainlink", "tron", "usds","ethereum"]
 
 # date
 today = datetime.datetime.now()
@@ -43,16 +49,21 @@ for coin in urlcoins:
 
         request = requests.get(url, headers=headers)
 
-        print(url)
+        # print(url) # used to catch bugs with the url
 
         # make dictionary
         eth_dictionary = json.loads(request.text)
+
+        # print the value of the coin and append it and the date to a csv
         try:
             print(eth_dictionary[marketKey][priceKey][usdKey])
             fileLines.append(dateFormat + ", " + str(eth_dictionary[marketKey][priceKey][usdKey]) + "\n")
+        
+        # exception for if any problem is detected while appeneding or getting the data
         except:
+            # error msg
             print("NO MORE CALLS")
+
     # write to a file
     file.writelines(fileLines)
-
-
+    

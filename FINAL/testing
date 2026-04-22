@@ -1,9 +1,14 @@
-import requests
+# counter variable
+    x = 0
 
-url = "https://pro-api.coingecko.com/api/v3/coins/bitcoin/history?date=2025-04-20"
+    # create a dictionary
+    file = open(urlcoins[x] + " data.csv", "w")
+    fileLines = []
 
-headers = {"x-cg-pro-api-key": "CG-RPB9RntnigsxQbwRtavehcv9"}
-
-response = requests.get(url, headers=headers)
-
-print(response.text)
+    # write to the dictionary with the data
+    format: First Buy, Total Profit, Percent Gain, Price High, Price Low
+    fileLines.append(str(firstBuy) + ", " + str(overall) + "," + str((overall/firstBuy) * 100) + ", " + str(priceHigh) + ", " + str(priceHighDate) + ", " + str(priceLow) + ", " + str(priceLowDate))
+    file.writelines(fileLines)
+    
+    # add to the counter var
+    x += 1
