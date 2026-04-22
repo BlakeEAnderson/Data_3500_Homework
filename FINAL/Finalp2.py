@@ -13,7 +13,8 @@ import csv
 # run after getting the csv files
 
 # list of urlcoins
-urlcoins = ["ethereum", "bitcoin", "tether", "chainlink", "tron", "usds"]
+urlcoins = ["chainlink"]#, "bitcoin", "tether", "chainlink", "tron", "usds"]
+
 # counter variable
 x = 0
 
@@ -25,11 +26,11 @@ for i in urlcoins:
     lines = file.readlines()
     reader = csv.reader(lines)
 
-    # variables buy, sell, overall, priceLst
+    # variables buy, sell, totalProfit, priceLst
     firstBuy = 0
     buy = 0
     sell = 0
-    overall = 0
+    totalProfit = 0
     priceLst = []
     dateLst = []
 
@@ -51,14 +52,15 @@ for i in urlcoins:
         dateLst.append(date) # appends date
 
     # itterates through price list and displays the moving average
-    print(i)    
-    for j in range(len(priceLst)):
+    print(i)
+    name = i    
+    for i in range(len(priceLst)):
         # makes sure its not out of range
-        if j <= 360:
+        if i <= 360:
             # creates current price and the average for the day
-            currentPrice = priceLst[j]
+            currentPrice = priceLst[i]
             # creates a 5 day moving average
-            average = (priceLst[j] + priceLst[j+1] + priceLst[j+2] + priceLst[j+3] + priceLst[j+4])/5
+            average = (priceLst[i] + priceLst[i+1] + priceLst[i+2] + priceLst[i+3] + priceLst[i+4])/5
 
         else:
             break
@@ -67,33 +69,37 @@ for i in urlcoins:
         if firstBuy == 0:
             firstBuy = currentPrice
             priceHigh = currentPrice
-            priceHighDate = dateLst[j]
+            priceHighDate = dateLst[i]
             priceLow = currentPrice
-            priceLowDate = dateLst[j]
+            priceLowDate = dateLst[i]
 
         # check if its a new high
         if currentPrice > priceHigh:
             priceHigh = currentPrice
-            priceHighDate = dateLst[j]
+            priceHighDate = dateLst[i]
 
         # check and update priceLow
         if currentPrice < priceLow:
             priceLow = currentPrice
-            priceLowDate = dateLst[j]
+            priceLowDate = dateLst[i]
     
-        if currentPrice > average and buy == 0:
+        if currentPrice < (average * 0.98) and buy == 0:
             #buy
             buy = currentPrice
-            print(f"BUYING AT: {buy}")
+            print(f"BUYING AT: \t{buy}")
 
-        elif currentPrice < average and buy != 0:
+        elif currentPrice > (average * 1.02) and buy != 0:
             # sell
             tradeValue = currentPrice - buy
-            print(f"SELLING AT: {currentPrice} \t PROFIT:{round(tradeValue, 2)} \t AVERAGE:{average}")
-            overall += tradeValue
-            
+
             # reset buy value
             buy = 0
+            
+            totalProfit += tradeValue
+            print(f"SELLING AT: \t{currentPrice} \n PROFIT:\t{round(tradeValue, 2)}")
+            
+            
+            
     # checks the final day and gives a suggestion            
     if currentPrice > average:
         suggestion = "You should buy on the last day"
@@ -103,14 +109,15 @@ for i in urlcoins:
         suggestion = "Just hold your current price"
     
     # output for each coin
-    print("\n\n___________________________")
-    print(f"FIRST BUY: {round(firstBuy, 2)}")
-    print(f"TOTAL PROFIT: {round(overall,2)}")
-    print(f"PERCENT GAIN: {round((overall/firstBuy) * 100,2)}")
-    print(f"PRICE HIGH: {round(priceHigh, 2)} ON DATE: {priceHighDate}")
-    print(f"PRICE LOW: {round(priceLow, 2)} ON DATE: {priceLowDate}")
+    print("\n\n___________________________________________________________")
+    print(name.upper() + "\n")
+    print(f"FIRST BUY: \t{round(firstBuy, 2)}")
+    print(f"TOTAL PROFIT: \t{round(totalProfit,2)}")
+    print(f"PERCENT RETURN: \t{round( (totalProfit/firstBuy) * 100 ,2)}")
+    print(f"PRICE HIGH: \t{round(priceHigh, 2)} ON DATE: {priceHighDate}")
+    print(f"PRICE LOW: \t{round(priceLow, 2)} ON DATE: {priceLowDate}")
     print(suggestion)
-    print("___________________________\n\n")
+    print("___________________________________________________________\n\n")
 
     # create a dictionary
     file = open(str(urlcoins[x]) + " data.csv", "w")
@@ -118,7 +125,7 @@ for i in urlcoins:
 
     # write to the dictionary with the data
     #format: First Buy, Total Profit, Percent Gain, Price High, Price Low
-    fileLines.append(str(firstBuy) + ", " + str(overall) + "," + str((overall/firstBuy) * 100) + ", " + str(priceHigh) + ", " + str(priceHighDate) + ", " + str(priceLow) + ", " + str(priceLowDate))
+    fileLines.append(str(firstBuy) + ", " + str(totalProfit) + "," + str(((totalProfit - firstBuy)/firstBuy) * 100) + ", " + str(priceHigh) + ", " + str(priceHighDate) + ", " + str(priceLow) + ", " + str(priceLowDate))
     file.writelines(fileLines)
     
     # add to the counter var
