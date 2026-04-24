@@ -1,0 +1,62 @@
+[
+    {
+        "Name": "bitcoin",
+        " First Buy": " 93576.17",
+        " Total Profit": " 121905.44000000002",
+        " Percent Gain": "30.2740216873591",
+        " Price High": " 124773.51",
+        " Price High Date": " 2025-10-07",
+        " Price Low": " 62853.69",
+        " Price Low Date": " 2026-02-06"
+    },
+    {
+        "Name": "solana",
+        " First Buy": " 148.8",
+        " Total Profit": " 412.89",
+        " Percent Gain": "177.47983870967738",
+        " Price High": " 247.56",
+        " Price High Date": " 2025-09-19",
+        " Price Low": " 77.74",
+        " Price Low Date": " 2026-02-24"
+    },
+    {
+        "Name": "chainlink",
+        " First Buy": " 14.13",
+        " Total Profit": " 46.42",
+        " Percent Gain": "228.52087756546356",
+        " Price High": " 26.75",
+        " Price High Date": " 2025-08-23",
+        " Price Low": " 7.93",
+        " Price Low Date": " 2026-02-06"
+    },
+    {
+        "Name": "tron",
+        " First Buy": " 0.25",
+        " Total Profit": " 0.36999999999999983",
+        " Percent Gain": "47.99999999999993",
+        " Price High": " 0.37",
+        " Price High Date": " 2025-08-23",
+        " Price Low": " 0.24",
+        " Price Low Date": " 2025-04-26"
+    },
+    {
+        "Name": "whitebit",
+        " First Buy": " 28.55",
+        " Total Profit": " 85.51",
+        " Percent Gain": "199.50963222416814",
+        " Price High": " 62.87",
+        " Price High Date": " 2025-12-11",
+        " Price Low": " 28.31",
+        " Price Low Date": " 2025-05-07"
+    },
+    {
+        "Name": "ethereum",
+        " First Buy": " 1759.71",
+        " Total Profit": " 8864.14",
+        " Percent Gain": "403.7273187059231",
+        " Price High": " 4829.23",
+        " Price High Date": " 2025-08-23",
+        " Price Low": " 1759.71",
+        " Price Low Date": " 2025-04-23"
+    }
+]

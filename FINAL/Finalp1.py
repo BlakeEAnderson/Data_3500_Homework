@@ -19,7 +19,7 @@ headers = {"x-cg-pro-api-key": "CG-RPB9RntnigsxQbwRtavehcv9"}
 
 
 # coin
-urlcoins = ["bitcoin", "tether", "chainlink", "tron", "usds","ethereum"]
+urlcoins = ["bitcoin", "solana", "chainlink", "tron", "whitebit", "ethereum"]
 
 # date
 today = datetime.datetime.now()
@@ -48,7 +48,7 @@ for coin in urlcoins:
         url = url1 + coin + url2 + str(dateFormat)
 
         request = requests.get(url, headers=headers)
-
+        print(url)
         # print(url) # used to catch bugs with the url
 
         # make dictionary
