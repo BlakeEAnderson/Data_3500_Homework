@@ -3,6 +3,9 @@ This is part one of my final project for DATA 3500. This part of the code takes 
 from coingecko and takes the dictionary that is recived and records the value of the
 coin and the date the value was gotten. These are recorded into csv files labeled after
 the coin that they were gotten from. example - bitcoin.csv
+
+Part two of the program runs 2 models on the data to find which has better percentage gains
+this is both a 5 day average and a 10 day average
 """
 import json
 import requests
@@ -39,7 +42,13 @@ def highestCalc(fileName):
                 high += 0
         except:
             high += 0
-    returnString = f"THE HIGHEST GROSS FOR 5 DAY WAS: {name}: \t PERCENT GAIN: {high}"
+    # checks if its for 5 day or 10 day avg
+    if fileName == "5DayAverage.csv":
+        day = 5
+    elif fileName == "10DayAverage.csv":
+        day = 10
+
+    returnString = f"THE HIGHEST GROSS FOR {day} DAY WAS: {name}: \t PERCENT GAIN: {high}"
     return(returnString)
 
 # url setup
@@ -96,8 +105,8 @@ for coin in urlcoins:
             # error msg
             print("NO MORE CALLS")
 
-    # write to a file
-    file = open(coin+".csv", "a")
+    # write to a file /workspaces/Data_3500_Homework/FINAL/bitcoin.csv
+    file = open("/workspaces/Data_3500_Homework/FINAL/"+coin+".csv", "a")
     file.writelines(fileLines)
 
 # counter variable

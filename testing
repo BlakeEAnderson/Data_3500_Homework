@@ -17,3 +17,4 @@ def csvtojson(csvFileName, jsonFileName):
     with open(jsonFileName, "w") as jsonFile:
         # write dataset to the file
         json.dump(data5Day, jsonFile, indent = 4)
+        json.dump(data5Day, jsonFile, indent = 4)
