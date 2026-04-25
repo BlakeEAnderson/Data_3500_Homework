@@ -1,0 +1,19 @@
+# saves both files to a json
+# save 5 day average
+with open('5DayAverage.csv', 'r') as csvFile:
+    data5Day = list(csv.DictReader(csvFile))
+
+with open("5DayResults.json", "w") as jsonFile:
+    # write 5day dataset to the file
+    json.dump(data5Day, jsonFile, indent = 4)
+
+
+def csvtojson(csvFileName, jsonFileName):
+    # open csv and write lines
+    with open(csvFileName, "w") as jsonFileName:
+        jsonFileName.writelines(fileLines)
+
+    # open new json file
+    with open(jsonFileName, "w") as jsonFile:
+        # write dataset to the file
+        json.dump(data5Day, jsonFile, indent = 4)

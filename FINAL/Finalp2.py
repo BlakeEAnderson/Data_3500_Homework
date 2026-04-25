@@ -11,6 +11,37 @@ import datetime
 import time
 import csv
 
+def csvtojson(csvFileName, jsonFileName):
+    # open csvFile
+    with open(csvFileName, 'r') as csvFile:
+        # write the data to a variable
+        data = list(csv.DictReader(csvFile))
+
+    # open new json file
+    with open(jsonFileName, "w") as jsonFile:
+        # write 5day dataset to the file
+        json.dump(data, jsonFile, indent = 4)
+    
+def highestCalc(fileName):
+    file = open(fileName)
+    lines = file.readlines()
+    reader = csv.reader(lines)
+    high = 0
+    name = ""
+    for row in reader:
+        # this is used to bypass the first line which will be a string
+        try:
+            amount = float(row[3])
+            # check if its a new high
+            if amount > high:
+                high = amount
+                name = row[0]
+            else:
+                high += 0
+        except:
+            high += 0
+    returnString = f"THE HIGHEST GROSS FOR 5 DAY WAS: {name}: \t PERCENT GAIN: {high}"
+    return(returnString)
 # run after getting the csv files
 
 # list of urlcoins
@@ -256,48 +287,11 @@ what the AI said
                 file.writelines(fileLines)
 """
 
-with open("10DayAverage.csv", "w") as file:
-    file.writelines(fileLines)
+
 
 # saves both files to a json
-# save 5 day average
-with open('5DayAverage.csv', 'r') as csvFile:
-    data5Day = list(csv.DictReader(csvFile))
+csvtojson("5DayAverage.csv", "5DayResults.json")
+csvtojson("10DayAverage.csv", "10DayResults.json")
 
-with open("5DayResults.json", "w") as jsonFile:
-    # write 5day dataset to the file
-    json.dump(data5Day, jsonFile, indent = 4)
-
-# save 10 day average
-with open('10DayAverage.csv', 'r') as csvFile:
-    data10Day = list(csv.DictReader(csvFile))
-
-with open("10DayResults.json", "w") as jsonFile:
-    # write 10day dataset to the file
-    json.dump(data10Day, jsonFile, indent = 4)
-
-# open and read from 5 day avearge
-file = open( "5DayAverage.csv")
-lines = file.readlines()
-reader = csv.reader(lines)
-
-# current high variable
-high = 0
-name = ""
-for row in reader:
-    amount = row[2]
-    
-    # this is used to bypass the first line which will be a string
-    try:
-        float(amount)
-
-        # check if its a new high
-        if amount > high:
-            high = amount
-            name = row[0]
-        else:
-            high += 0
-    except:
-        high += 0
-    
-print(f"THE HIGHEST GROSS FOR 5 DAY WAS: {name}: \t {high}")
+print(highestCalc("5DayAverage.csv"))
+print(highestCalc("10DayAverage.csv"))
